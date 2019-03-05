@@ -114,11 +114,19 @@ spec:
         - mountPath: /acme
           name: acme
         {{- end }}
+        {{- if .Values.configFiles }}
+        - mountPath: /configs
+          name: {{ template "traefik.fullname" $ }}-configs
+        {{ end }}
+        {{- if .Values.secretFiles }}
+        - mountPath: /secrets
+          name: {{ template "traefik.fullname" $ }}-secrets
+        {{- end }}
         ports:
         - name: http
           containerPort: 80
           {{- if .Values.deployment.hostPort.httpEnabled }}
-          hostPort: 80
+          hostPort: {{ default 80 .Values.deployment.hostPort.httpPort }}
           {{- end }}
           protocol: TCP
         - name: httpn
@@ -127,14 +135,14 @@ spec:
         - name: https
           containerPort: 443
           {{- if .Values.deployment.hostPort.httpsEnabled }}
-          hostPort: 443
+          hostPort: {{ default 443 .Values.deployment.hostPort.httpsPort }}
           {{- end }}
           protocol: TCP
         {{- if .Values.dashboard.enabled }}
         - name: dash
           containerPort: 8080
           {{- if .Values.deployment.hostPort.dashboardEnabled }}
-          hostPort: 8080
+          hostPort: {{ default 8080 .Values.deployment.hostPort.dashboardPort }}
           {{- end }}
           protocol: TCP
         {{- end }}
@@ -161,6 +169,16 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
+      {{- end }}
+      {{- if .Values.configFiles }}
+      - name: {{ template "traefik.fullname" $ }}-configs
+        configMap:
+          name: {{ template "traefik.fullname" $ }}-configs
+      {{ end }}
+      {{- if .Values.secretFiles }}
+      - name: {{ template "traefik.fullname" $ }}-secrets
+        secret:
+          secretName: {{ template "traefik.fullname" $ }}-secrets
       {{- end }}
       {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
