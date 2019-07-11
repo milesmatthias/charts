@@ -19,5 +19,5 @@ metadata:
 {{- end }}
 spec:
   securityPolicy:
-    name: .Values.backendconfig.name
+    name: {{ .Values.backendconfig.name }}
 {{- end }}
