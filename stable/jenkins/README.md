@@ -111,6 +111,11 @@ The following tables list the configurable parameters of the Jenkins chart and t
 | `master.jmxPort`                  | Open a port, for JMX stats           | Not set                                   |
 | `master.extraPorts`               | Open extra ports, for other uses     | Not set                                   |
 | `master.overwriteConfig`          | Replace init scripts and config w/ ConfigMap on boot  | `false`                  |
+| `master.backendconfig.enabled`     | Enables backendconfig     | `false`                    |
+| `master.backendconfig.name`        | Backend Config name       | Not set                    |
+| `master.backendconfig.apiVersion`  | Backendconfig API version | `cloud.google.com/v1beta1` |
+| `master.backendconfig.annotations` | Backendconfig annotations | `{}`                       |
+| `master.backendconfig.labels`      | Backendconfig labels      | `{}`                       |
 | `master.ingress.enabled`          | Enables ingress                      | `false`                                   |
 | `master.ingress.apiVersion`       | Ingress API version                  | `extensions/v1beta1`                      |
 | `master.ingress.hostName`         | Ingress host name                    | Not set                                   |

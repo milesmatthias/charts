@@ -281,6 +281,12 @@ master:
   # the jenkins jobs configuration with the contents of Jobs every time the pod starts.
   overwriteJobs: false
 
+  backendconfig:
+    enabled: false
+    apiVersion: "cloud.google.com/v1beta1"
+    name:
+    labels: {}
+    annotations: {}
   ingress:
     enabled: false
     # For Kubernetes v1.14+, use 'networking.k8s.io/v1beta1'
